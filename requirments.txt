@@ -1,0 +1,3 @@
+openai-whisper==20231117
+Flask==3.0.0
+Werkzeug==3.0.1

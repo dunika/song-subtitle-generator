@@ -1,0 +1,6 @@
+docker run -it --rm \
+--name whisper \
+-v $(pwd)/bulk_transcription/files:/var/app/bulk_transcription/files \
+-v $(pwd)/bulk_transcription/transcribed_files:/var/app/bulk_transcription/transcribed_files \
+-v $(pwd)/src:/var/app/src \
+whisper bash

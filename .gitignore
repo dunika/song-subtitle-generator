@@ -1,0 +1,6 @@
+venv
+cache
+*.wav
+bulk_transcription
+.DS_Store
+__pycache__
