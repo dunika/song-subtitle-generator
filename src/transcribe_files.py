@@ -2,9 +2,8 @@ import os
 import subprocess
 from pathlib import Path
 
-from subtitles import get_subtitles_and_lyrics, write_subtitles_and_lyrics
-
-# os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
+import captions
+import captions_fs
 
 
 def extract_audio(input_file, output_file):
@@ -47,8 +46,9 @@ if __name__ == "__main__":
     print("Transcribing files...")
 
     for file in audio_files:
+        print(f"Transcribing {file}...")
         file_path = os.path.join(files_dir, file)
-        subtitles, lyrics = get_subtitles_and_lyrics(file_path)
+        captions_config = captions.get(file_path)
 
         file_stem = file.stem
 
@@ -59,11 +59,7 @@ if __name__ == "__main__":
 
         os.makedirs(song_dir, exist_ok=True)
 
-        write_subtitles_and_lyrics(
-            song_dir,
-            subtitles,
-            lyrics,
-        )
+        captions_fs.write(song_dir, captions_config)
 
         audio_path = song_dir / "audio.wav"
 

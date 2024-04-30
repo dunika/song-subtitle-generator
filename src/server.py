@@ -3,7 +3,7 @@ import os
 from flask import Flask, jsonify, render_template, request
 from werkzeug.utils import secure_filename
 
-from subtitles import get_subtitles_and_lyrics, write_subtitles_and_lyrics
+import captions
 
 app = Flask(__name__)
 
@@ -33,15 +33,9 @@ def upload_file():
     if file.filename == "":
         return jsonify({"message": "No selected file"}), 400
 
-    subtitles, lyrics = get_subtitles_and_lyrics(temp)
+    captions_config = captions.get(temp)
 
-    write_subtitles_and_lyrics(
-        os.path.join(app.config["UPLOAD_FOLDER"]),
-        subtitles,
-        lyrics,
-    )
-
-    return jsonify(subtitles), 200
+    return jsonify(captions_config), 200
 
 
 if __name__ == "__main__":
