@@ -9,6 +9,15 @@ RUN apt-get update && apt-get install -y \
     # Clean up
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+COPY requirements.txt /var/app/
+
+# Install openai-whisper and cache the models
+RUN version=$(grep "openai-whisper==" requirements.txt | cut -d'=' -f3) && \
+    pip install openai-whisper==$version
+
+COPY cache_whisper_models.py /var/app/
+RUN python cache_whisper_models.py
+
 # Install Python dependencies
 COPY requirements.txt /var/app/
 RUN pip install -r requirements.txt
