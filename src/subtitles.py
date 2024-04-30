@@ -1,12 +1,7 @@
 import json
 import os
-from pathlib import Path
 
-import whisper
-
-download_root = Path(__file__).parent.parent / "cache" / "whisper"
-
-print(download_root)
+import whisper_cache
 
 
 def round_to_one_decimal_place(number):
@@ -18,7 +13,7 @@ def convert_seconds_to_milliseconds(seconds):
 
 
 def get_subtitles_and_lyrics(path):
-    model = whisper.load_model("large", download_root=str(download_root))
+    model = whisper_cache.load_model("large")
     transcription = model.transcribe(
         path,
         word_timestamps=True,
