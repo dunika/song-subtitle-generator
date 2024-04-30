@@ -2,6 +2,8 @@ import os
 
 import whisper
 
+# os.environ["KMP_DUPLICATE_LIB_OK"] = "True"
+
 
 def load_model(
     model_name: str,
