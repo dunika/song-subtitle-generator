@@ -1,18 +1,20 @@
+import os
 from pathlib import Path
 from typing import Dict
 
 from werkzeug.datastructures import FileStorage
 
-import whisper_cache
+import whisper
 import whisper_file_utils
 
 
 def get(
     input_file: str | Path | bytes | FileStorage,
+    whisper_cache_dir: str | None = os.environ["WHISPER_CACHE_DIR"],
 ) -> Dict:  # TODO: improve type hinting
     audio_file_path = whisper_file_utils.prepare_file_for_transcription(input_file)
 
-    model = whisper_cache.load_model("large")
+    model = whisper.load_model("large", download_root=whisper_cache_dir)
     transcription = model.transcribe(
         str(audio_file_path),
         word_timestamps=True,
