@@ -5,52 +5,22 @@ from pathlib import Path
 import captions
 import captions_fs
 
-
-def extract_audio(input_file, output_file):
-    # Command to extract audio using FFmpeg and save it as a WAV file
-    command = [
-        "ffmpeg",
-        "-i",
-        input_file,
-        "-vn",
-        "-acodec",
-        "pcm_s16le",
-        "-ar",
-        "44100",
-        "-ac",
-        "2",
-        output_file,
-    ]
-
-    # Execute the command
-    subprocess.run(command, check=True)
-
-
-# Extract audio from the .mov file
-
 if __name__ == "__main__":
     files_dir = Path(__file__).parent.parent / "bulk_transcription" / "files"
     transcribed_files_dir = (
         Path(__file__).parent.parent / "bulk_transcription" / "transcribed_files"
     )
 
-    video_files = list(files_dir.glob("*.mov"))
-    for video_file in video_files:
-        print("Converting video to audio...")
-
-        audio_file = files_dir / (video_file.stem + ".wav")
-        extract_audio(video_file, audio_file)
-
-    audio_files = list(files_dir.glob("*.wav"))
+    file_names = list(files_dir.glob("*."))
 
     print("Transcribing files...")
 
-    for file in audio_files:
-        print(f"Transcribing {file}...")
-        file_path = os.path.join(files_dir, file)
+    for file_name in file_names:
+        print(f"Transcribing {file_name}...")
+        file_path = os.path.join(files_dir, file_name)
         captions_config = captions.get(file_path)
 
-        file_stem = file.stem
+        file_stem = file_name.stem
 
         # final_flame--bridge.wav - songname = final_flame, song_segnemt = bridge
         song_name = file_stem.split("__")[0]

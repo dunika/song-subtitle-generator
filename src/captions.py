@@ -1,10 +1,20 @@
+from pathlib import Path
+from typing import Dict
+
+from werkzeug.datastructures import FileStorage
+
 import whisper_cache
+import whisper_file_utils
 
 
-def get(path):
+def get(
+    input_file: str | Path | bytes | FileStorage,
+) -> Dict:  # TODO: improve type hinting
+    audio_file_path = whisper_file_utils.prepare_file_for_transcription(input_file)
+
     model = whisper_cache.load_model("large")
     transcription = model.transcribe(
-        path,
+        str(audio_file_path),
         word_timestamps=True,
         language="English",
         verbose=False,
@@ -39,7 +49,10 @@ def get(path):
                 if duration < 200:
                     subtitle["end"] = subtitle["start"] + 200
 
-    return captions, transcript, transcription
+    return {
+        "captions": captions,
+        "transcript": transcript,
+    }
 
 
 def get_transcript(captions):
