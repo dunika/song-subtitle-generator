@@ -15,7 +15,8 @@ COPY cache /var/app/cache
 COPY src /var/app/src
 
 ARG CACHE_WHISPER_MODELS=true
-RUN if [ "$CACHE_WHISPER_MODELS" = "true" ] ; then /python cache_whisper_models.py ; fi
+COPY cache_whisper_models.py /var/app
+RUN if [ "$CACHE_WHISPER_MODELS" = "true" ] ; then python cache_whisper_models.py ; fi
 
 EXPOSE 5000
 
