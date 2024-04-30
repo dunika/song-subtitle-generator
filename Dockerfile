@@ -18,10 +18,8 @@ COPY src /var/app/src
 
 # Cache the whisper files in the container
 ARG WHISPER_CACHE_DIR
-ARG CONTAINER_WHISPER_CACHE_DIR=whisper_cache
-
-COPY $WHISPER_CACHE_DIR /var/app/$CONTAINER_WHISPER_CACHE_DIR
-ENV WHISPER_CACHE_DIR=$CONTAINER_WHISPER_CACHE_DIR
+COPY $WHISPER_CACHE_DIR /var/app/$WHISPER_CACHE_DIR
+ENV WHISPER_CACHE_DIR=$WHISPER_CACHE_DIR
 
 # Inform Docker that the container listens on the specified port at runtime.
 EXPOSE 5000
